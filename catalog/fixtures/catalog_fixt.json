@@ -1,0 +1,91 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "name": "Электроника",
+      "description": "Гаджеты, компьютеры и аксессуары"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 5,
+    "fields": {
+      "name": "Бытовая техника",
+      "description": "Техника для дома и кухни"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 6,
+    "fields": {
+      "name": "Хобби и отдых",
+      "description": "Товары для спорта и творчества"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name": "Смартфон Galaxy S25",
+      "description": "Флагман 2025 года с отличной камерой",
+      "image": "",
+      "category": 4,
+      "price": "85000.00",
+      "created_at": "2026-01-23T18:00:59.794Z",
+      "updated_at": "2026-01-23T18:00:59.794Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name": "Ноутбук Pro 16",
+      "description": "Мощное решение для разработчиков",
+      "image": "",
+      "category": 4,
+      "price": "120000.00",
+      "created_at": "2026-01-23T18:01:11.962Z",
+      "updated_at": "2026-01-23T18:01:11.962Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "name": "Кофемашина Espresso",
+      "description": "Идеальный кофе каждое утро",
+      "image": "",
+      "category": 5,
+      "price": "35000.00",
+      "created_at": "2026-01-23T18:01:51.757Z",
+      "updated_at": "2026-01-23T18:01:51.757Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "name": "Микроволновая печь Turbo",
+      "description": "800 Вт, объем 20 литров, режим разморозки",
+      "image": "",
+      "category": 5,
+      "price": "7500.00",
+      "created_at": "2026-01-23T19:36:13.503Z",
+      "updated_at": "2026-01-23T19:36:13.503Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "name": "Палатка 2-местная",
+      "description": "Водостойкость 3000 мм, быстрая сборка",
+      "image": "",
+      "category": 6,
+      "price": "5800.00",
+      "created_at": "2026-01-23T19:38:00.619Z",
+      "updated_at": "2026-01-23T19:38:00.619Z"
+    }
+  }
+]
