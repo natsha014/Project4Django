@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from catalog.models import Product
 
 
@@ -18,7 +18,7 @@ def contacts(request):
 
 
 def product_detail(request, product_id):
-    product = Product.objects.get(id=product_id)
+    product = get_object_or_404(Product, id=product_id)
     context = {'product': product}
     return render(request, 'products/product_detail.html', context)
 
