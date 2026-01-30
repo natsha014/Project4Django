@@ -1,5 +1,5 @@
-<!-- catalog/templates/products/main.html -->
-{% extends 'products/base.html' %}
+<!-- catalog/templates/catalog/product_list.html -->
+{% extends 'catalog/base.html' %}
 
 {% block title %}Каталог{% endblock %}
 
@@ -8,9 +8,10 @@
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1>Каталог</h1>
         <p>Добро пожаловать в наш каталог!</p>
+        <a href="{% url 'catalog:product_create' %}" class="btn btn-outline-primary">Добавить продукт</a>
     </div>
     <div class="row">
-        {% for product in products %}
+        {% for product in object_list %}
         <div class="col-md-4 mb-4"> <!-- 4 колонки из 12 = 3 товара в ряд -->
             <div class="card h-100">
                 {% if product.image %}
@@ -25,6 +26,8 @@
                     <p class="card-text text-truncate">{{ product.description|truncatechars:100 }}</p>
                     <!-- Ссылка на страницу товара -->
                     <a href="{% url 'catalog:product_detail' product.id %}" class="btn btn-primary">Посмотреть</a>
+                    <a href="{% url 'catalog:product_update' product.id %}" class="btn btn-secondary">Редактировать</a>
+                    <a href="{% url 'catalog:product_delete' product.id %}" class="btn btn-danger">Удалить</a>
                 </div>
             </div>
         </div>
