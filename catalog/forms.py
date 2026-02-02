@@ -15,6 +15,14 @@ class ProductForm(ModelForm):
         model = Product
         fields = "__all__"
 
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if isinstance(field, BooleanField):
+                field.widget.attrs['class'] = 'form-check-input'
+            else:
+                field.widget.attrs['class'] = 'form-control'
+
     def clean_name(self):
         cleaned_data = self.cleaned_data['name']
 
@@ -39,14 +47,6 @@ class ProductForm(ModelForm):
         if price < 0:
             raise forms.ValidationError('Цена не может быть отрицательной!')
         return price
-
-    def __init__(self, *args, **kwargs):
-        super(ProductForm, self).__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            if isinstance(field, BooleanField):
-                field.widget.attrs['class'] = 'form-check-input'
-            else:
-                field.widget.attrs['class'] = 'form-control'
 
     def clean_image(self):
         image = self.cleaned_data['image']
