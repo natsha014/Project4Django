@@ -8,11 +8,14 @@
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1>Каталог</h1>
         <p>Добро пожаловать в наш каталог!</p>
-        <a href="{% url 'catalog:product_create' %}" class="btn btn-outline-primary">Добавить продукт</a>
+        <a href="{% url 'catalog:product_create' %}"
+           class="btn btn-primary {% if not user.is_authenticated %}disabled{% endif %}">
+            Добавить продукт
+        </a>
     </div>
     <div class="row">
         {% for product in object_list %}
-        <div class="col-md-4 mb-4"> <!-- 4 колонки из 12 = 3 товара в ряд -->
+        <div class="col-md-4 mb-4">
             <div class="card h-100">
                 {% if product.image %}
                 <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"
@@ -24,10 +27,18 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text text-truncate">{{ product.description|truncatechars:100 }}</p>
-                    <!-- Ссылка на страницу товара -->
-                    <a href="{% url 'catalog:product_detail' product.id %}" class="btn btn-primary">Посмотреть</a>
-                    <a href="{% url 'catalog:product_update' product.id %}" class="btn btn-secondary">Редактировать</a>
-                    <a href="{% url 'catalog:product_delete' product.id %}" class="btn btn-danger">Удалить</a>
+                    <a href="{% url 'catalog:product_detail' product.id %}"
+                       class="btn btn-primary {% if not user.is_authenticated %}disabled{% endif %}">
+                        Посмотреть
+                    </a>
+                    <a href="{% url 'catalog:product_update' product.id %}"
+                       class="btn btn-secondary {% if not user.is_authenticated %}disabled{% endif %}">
+                        Редактировать
+                    </a>
+                    <a href="{% url 'catalog:product_delete' product.id %}"
+                       class="btn btn-danger {% if not user.is_authenticated %}disabled{% endif %}">
+                        Удалить
+                    </a>
                 </div>
             </div>
         </div>
