@@ -13,7 +13,7 @@ FORBIDDEN_WORDS = [
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ('name', 'description', 'image', 'category', 'price', 'is_published')
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
