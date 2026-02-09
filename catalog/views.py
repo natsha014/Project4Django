@@ -4,7 +4,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from catalog.forms import ProductForm
 from catalog.models import Product
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 
 
 class ProductListView(ListView):
@@ -20,16 +21,39 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
+    def has_permission(self):
+        """Проверяем: ты либо владелец, либо модератор с правом"""
+        product = self.get_object()
+        user = self.request.user
 
-class ProductDeleteView(DeleteView):
+        is_owner = product.owner == user
+        is_moderator = user.has_perm('catalog.can_unpublish_product')
+
+        return is_owner or is_moderator or user.is_superuser
+
+
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:product_list')
+
+    def has_permission(self):
+        product = self.get_object()
+        user = self.request.user
+
+        is_owner = product.owner == user
+        is_moderator = user.has_perm('catalog.delete_product')
+
+        return is_owner or is_moderator or user.is_superuser
 
 
 class ContactsTemplateView(TemplateView):
