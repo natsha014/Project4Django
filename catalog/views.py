@@ -1,11 +1,11 @@
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from catalog.forms import ProductForm
 from catalog.models import Product
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.core.exceptions import PermissionDenied
+from .services import get_products_by_category
 
 
 class ProductListView(ListView):
@@ -39,7 +39,7 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
         is_owner = product.owner == user
         is_moderator = user.has_perm('catalog.can_unpublish_product')
 
-        return is_owner or is_moderator or user.is_superuser
+        return user.is_superuser or is_owner or is_moderator
 
 
 class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -53,7 +53,7 @@ class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
         is_owner = product.owner == user
         is_moderator = user.has_perm('catalog.delete_product')
 
-        return is_owner or is_moderator or user.is_superuser
+        return user.is_superuser or is_owner or is_moderator
 
 
 class ContactsTemplateView(TemplateView):
@@ -68,3 +68,12 @@ class ContactsTemplateView(TemplateView):
         message = request.POST.get('message')
 
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение {message} получено.")
+
+
+class CategoryProductListView(ListView):
+    model = Product
+    template_name = 'catalog/category_products.html'
+
+    def get_queryset(self):
+        category_id = self.kwargs.get('pk')
+        return get_products_by_category(category_id)
