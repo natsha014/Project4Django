@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h1 class="mb-4 text-center">Товары категории</h1>
+
+    <div class="row">
+        {% for product in object_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="alert alert-info">В этой категории пока нет опубликованных товаров.
+                <a href="{% url 'catalog:product_list' %}">Вернуться в каталог</a>
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

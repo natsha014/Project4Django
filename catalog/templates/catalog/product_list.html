@@ -31,11 +31,11 @@
                        class="btn btn-primary {% if not user.is_authenticated %}disabled{% endif %}">
                         Посмотреть
                     </a>
-                    {% if user == product.owner or user.is_superuser %}
+                    {% if user.is_superuser or user == product.owner %}
                     <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-secondary">Редактировать</a>
                     {% endif %}
 
-                    {% if user == product.owner or perms.catalog.delete_product or user.is_superuser %}
+                    {% if user.is_superuser or user == product.owner or perms.catalog.delete_product %}
                     <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
                     {% endif %}
                 </div>
